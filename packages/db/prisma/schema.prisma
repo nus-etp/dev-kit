@@ -1,0 +1,59 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider        = "prisma-client"
+  output          = "../src/generated/prisma"
+  previewFeatures = ["fullTextSearchPostgres"]
+  engineType      = "client"
+}
+
+generator zod {
+  provider = "prisma-zod-generator"
+  output   = "../src/generated/zod"
+}
+
+generator kysely {
+  provider = "prisma-kysely"
+
+  // Optionally provide a destination directory for the generated file
+  // and a filename of your choice
+  output       = "../src/generated/kysely"
+  fileName     = "types.ts"
+  // Optionally generate runtime enums to a separate file
+  enumFileName = "enums.ts"
+  readOnlyIds  = true
+}
+
+model VerificationToken {
+  identifier String   @id
+  token      String
+  attempts   Int      @default(0)
+  issuedAt   DateTime @default(now()) @db.Timestamptz(3)
+}
+
+model User {
+  id       String    @id @default(cuid(2))
+  name     String?
+  email    String    @unique
+  image    String?
+  accounts Account[]
+
+  lastLogin DateTime? @db.Timestamptz(3)
+}
+
+model Account {
+  id                String @id @default(cuid(2))
+  provider          String
+  providerAccountId String
+
+  userId String @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
