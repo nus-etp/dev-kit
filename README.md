@@ -166,3 +166,7 @@ The deployment needs a few environment variables to be set for it to function. T
 ## References
 
 The stack originates from [create-t3-app](https://github.com/t3-oss/create-t3-app) and [create-t3-turbo](https://github.com/t3-oss/create-t3-turbo) with some additional OGP-specific tweaks.
+
+## Credits
+
+Forked from [opengovsg/starter-kit](https://github.com/opengovsg/starter-kit) at commit [`65cdbbc`](https://github.com/opengovsg/starter-kit/commit/65cdbbc40f5c6f5ecdd9fde67ca679f2a5f1e412) on 2026-05-04. Original work by [Open Government Products](https://open.gov.sg), Singapore.
