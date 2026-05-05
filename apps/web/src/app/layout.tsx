@@ -14,10 +14,10 @@ import { ClientProviders } from './provider'
 
 export const metadata: Metadata = {
   title: env.NEXT_PUBLIC_APP_NAME,
-  description: 'Simple monorepo Starter Kit with for OGP projects',
+  description: 'Simple monorepo Starter Kit with for ETP projects',
   openGraph: {
     title: env.NEXT_PUBLIC_APP_NAME,
-    description: 'Simple monorepo Starter Kit with for OGP projects',
+    description: 'Simple monorepo Starter Kit with for ETP projects',
     url: 'https://start.open.gov.sg',
     siteName: env.NEXT_PUBLIC_APP_NAME,
   },

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Stack
 
-OGP Starter Kit — a Turborepo + pnpm monorepo (`@acme/*` workspace scope). Single Next.js 15 app (`apps/web`) using React 19, tRPC v11, Tailwind v4, Prisma 7 + Kysely on PostgreSQL, iron-session, Pino logging, and Redis. Shared packages live under `packages/*`; build/lint configs under `tooling/*`.
+ETP Starter Kit — a Turborepo + pnpm monorepo (`@acme/*` workspace scope). Single Next.js 15 app (`apps/web`) using React 19, tRPC v11, Tailwind v4, Prisma 7 + Kysely on PostgreSQL, iron-session, Pino logging, and Redis. Shared packages live under `packages/*`; build/lint configs under `tooling/*`.
 
 Node `>=24.13.0`, pnpm `>=10.17.1` (enforced via `engines`). Always use `pnpm` — never `npm`/`yarn`.
 
