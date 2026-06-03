@@ -1,0 +1,93 @@
+name: Sync from upstream
+
+# Periodically merges opengovsg/starter-kit@main into a sync branch and opens a
+# PR for review. The branch is NOT guaranteed to be conflict-free — when the
+# merge conflicts, the conflict markers are committed as-is so a human can
+# resolve them in the PR. Manual judgment is expected before merging.
+
+on:
+  schedule:
+    - cron: '0 1 * * 1' # 09:00 SGT every Monday
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+env:
+  UPSTREAM_REMOTE: https://github.com/opengovsg/starter-kit.git
+  UPSTREAM_BRANCH: main
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # full history so the merge has a real base
+
+      - name: Configure git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Fetch upstream
+        run: |
+          git remote add upstream "$UPSTREAM_REMOTE" 2>/dev/null \
+            || git remote set-url upstream "$UPSTREAM_REMOTE"
+          git fetch --no-tags upstream "$UPSTREAM_BRANCH"
+
+      - name: Skip if already in sync
+        id: check
+        run: |
+          if git merge-base --is-ancestor upstream/$UPSTREAM_BRANCH origin/main; then
+            echo "main already contains upstream/$UPSTREAM_BRANCH — nothing to sync."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create sync branch (conflicts allowed)
+        if: steps.check.outputs.skip == 'false'
+        id: sync
+        run: |
+          BRANCH="chore/upstream-sync-$(date -u +%Y%m%d)"
+          git checkout -B "$BRANCH" origin/main
+          # --allow-unrelated-histories is needed for the first sync (this repo
+          # was seeded from a squashed snapshot). It's a no-op once a merge has
+          # established a shared base.
+          if git merge --no-edit --allow-unrelated-histories upstream/$UPSTREAM_BRANCH; then
+            echo "Merged cleanly."
+            echo "conflicts=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "Merge produced conflicts — committing markers for manual resolution."
+            git add -A
+            git commit --no-edit
+            echo "conflicts=true" >> "$GITHUB_OUTPUT"
+          fi
+          git push --force-with-lease origin "$BRANCH"
+          echo "branch=$BRANCH" >> "$GITHUB_OUTPUT"
+
+      - name: Open pull request
+        if: steps.check.outputs.skip == 'false'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: ${{ steps.sync.outputs.branch }}
+          CONFLICTS: ${{ steps.sync.outputs.conflicts }}
+        run: |
+          if gh pr view "$BRANCH" >/dev/null 2>&1; then
+            echo "PR already open for $BRANCH — branch updated in place."
+            exit 0
+          fi
+
+          TITLE="chore: sync from upstream ($BRANCH)"
+          BODY="Automated merge of \`opengovsg/starter-kit@$UPSTREAM_BRANCH\` into \`main\`."
+          if [ "$CONFLICTS" = "true" ]; then
+            TITLE="chore: sync from upstream ($BRANCH) — has conflicts"
+            BODY="$BODY
+
+⚠️ **This branch contains unresolved merge conflicts.** Conflict markers were committed as-is; resolve them manually and verify (\`pnpm typecheck && pnpm lint\`) before merging."
+          fi
+
+          gh pr create --base main --head "$BRANCH" --title "$TITLE" --body "$BODY"
