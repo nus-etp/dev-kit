@@ -4,6 +4,11 @@ name: Sync from upstream
 # The branch is a verbatim copy of upstream — no merge into `main` happens here.
 # Merging `upstream` into `main` is done manually; it need not be conflict-free,
 # we rely on manual judgment for that.
+#
+# Because the mirror includes .github/workflows/*, the default GITHUB_TOKEN
+# cannot push it (it lacks the `workflow` scope). Authenticate with a
+# fine-grained PAT stored as the `UPSTREAM_SYNC_TOKEN` secret, with Contents +
+# Workflows: write on this repo.
 
 on:
   schedule:
@@ -24,6 +29,9 @@ jobs:
     steps:
       - name: Checkout (for origin + auth)
         uses: actions/checkout@v4
+        with:
+          # PAT with `workflow` scope so the push may touch .github/workflows/*.
+          token: ${{ secrets.UPSTREAM_SYNC_TOKEN }}
 
       - name: Mirror upstream onto the `upstream` branch
         run: |
