@@ -2,6 +2,11 @@ import type { NextRequest } from 'next/server'
 
 import { NextResponse } from 'next/server'
 
+import {
+  hasMarkdownVersion,
+  prefersMarkdown,
+} from '~/lib/markdown-for-agents'
+
 interface CspPolicy {
   'default-src'?: string[]
   'script-src'?: string[]
@@ -67,6 +72,18 @@ const vercelLivePolicy = {
 }
 
 export function proxy(request: NextRequest) {
+  const { pathname } = request.nextUrl
+  const markdownEnabled = request.method === 'GET' && hasMarkdownVersion(pathname)
+
+  // Markdown for Agents: when a client negotiates `Accept: text/markdown`,
+  // rewrite to the markdown route handler. Browsers keep getting HTML.
+  if (markdownEnabled && prefersMarkdown(request.headers.get('accept'))) {
+    const url = request.nextUrl.clone()
+    url.pathname = '/api/markdown'
+    url.searchParams.set('path', pathname)
+    return NextResponse.rewrite(url)
+  }
+
   // oxlint-disable-next-line no-restricted-properties
   const isVercelPreview = process.env.VERCEL_ENV === 'preview'
   const isDev =
@@ -107,6 +124,12 @@ export function proxy(request: NextRequest) {
     'Content-Security-Policy',
     contentSecurityPolicyHeaderValue
   )
+
+  // This path can serve either HTML or markdown depending on `Accept`, so tell
+  // caches the response varies by it.
+  if (markdownEnabled) {
+    response.headers.append('Vary', 'Accept')
+  }
 
   return response
 }

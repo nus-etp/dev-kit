@@ -72,6 +72,12 @@ Scaffold a new package: `pnpm turbo gen init` (templates in `turbo/generators/`)
 - `tooling/{oxlint,tailwind,typescript,storybook,github}` — shared configs published as workspace packages (`@acme/oxlint-config`, `@acme/tailwind-config`, `@acme/tsconfig`, etc.).
 - `turbo/generators` — plop-style generator backing `pnpm turbo gen init`.
 
+### Agent/SEO discovery
+
+- `app/robots.txt/route.ts` — hand-authored `/robots.txt` (plain text) so it can carry non-standard `Content-Signal:` directives (https://contentsignals.org/) and per-bot groups. Policy: general crawlers may index public pages but content is opted out of AI training/input; named AI crawlers (GPTBot, ClaudeBot, Google-Extended, …) are blocked outright. References the sitemap.
+- `app/sitemap.ts` — `/sitemap.xml` of canonical public URLs. Add new public pages here on publish.
+- **Markdown for Agents** — clients sending `Accept: text/markdown` get a markdown rendition of select public pages. `proxy.ts` detects the preference (`prefersMarkdown`) and rewrites to `app/api/markdown/route.ts`; HTML stays the default for browsers. Markdown bodies + the enabled-path set live in `src/lib/markdown-for-agents.ts` — keep them in sync with page copy. Site origin for all three comes from `src/lib/site.ts` (`NEXT_PUBLIC_APP_URL`, falling back to the production domain).
+
 ### tRPC server (`apps/web/src/server`)
 
 `api/trpc.ts` is the integration point. Every procedure goes through `defaultProcedure`, which chains:
