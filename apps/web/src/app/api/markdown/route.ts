@@ -1,6 +1,9 @@
 import type { NextRequest } from 'next/server'
 
-import { hasMarkdownVersion, markdownDocuments } from '~/lib/markdown-for-agents'
+import {
+  hasMarkdownVersion,
+  markdownDocuments,
+} from '~/lib/markdown-for-agents'
 
 /**
  * Serves the markdown rendition of a public page. Not meant to be hit directly
