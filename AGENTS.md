@@ -1,12 +1,12 @@
-# CLAUDE.md
+# AGENTS.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to coding agents when working with code in this repository.
 
 ## Stack
 
-ETP Starter Kit — a Turborepo + pnpm monorepo (`@acme/*` workspace scope). Single Next.js 15 app (`apps/web`) using React 19, tRPC v11, Tailwind v4, Prisma 7 + Kysely on PostgreSQL, iron-session, Pino logging, and Redis. Shared packages live under `packages/*`; build/lint configs under `tooling/*`.
+ETP Starter Kit — a Turborepo + pnpm monorepo (`@acme/*` workspace scope). Single Next.js 16 app (`apps/web`) using React 19, tRPC v11, Tailwind v4, Prisma 7 + Kysely on PostgreSQL, iron-session, Pino logging, and Redis. Lint/format via the oxc toolchain (oxlint + oxfmt). Shared packages live under `packages/*`; build/lint configs under `tooling/*`.
 
-Node `>=24.13.0`, pnpm `>=10.17.1` (enforced via `engines`). Always use `pnpm` — never `npm`/`yarn`.
+Node `>=24.13.0`, pnpm `>=11.0.0` (enforced via `engines`). Always use `pnpm` — never `npm`/`yarn`.
 
 ## Commands
 
@@ -24,10 +24,10 @@ pnpm dev:next                 # only the Next.js app + its deps
 Quality gates:
 
 ```bash
-pnpm lint        # eslint, cached at .cache/.eslintcache
-pnpm lint:fix
-pnpm format      # prettier check
-pnpm format:fix
+pnpm lint        # oxlint
+pnpm lint:fix    # oxlint --fix
+pnpm format      # oxfmt --check
+pnpm format:fix  # oxfmt --write
 pnpm typecheck   # tsc --noEmit across workspaces
 pnpm lint:ws     # sherif — workspace consistency (also runs postinstall)
 pnpm build
@@ -69,7 +69,7 @@ Scaffold a new package: `pnpm turbo gen init` (templates in `turbo/generators/`)
 - `apps/web` — the only app. Next.js App Router with route groups `(authed)` and `(public)`; tRPC handler at `src/app/api/trpc`; auth callbacks at `src/app/api/auth`.
 - `packages/db` — Prisma + Kysely + Zod. Multi-export package; consumers import `@acme/db`, `@acme/db/client`, `@acme/db/extensions`, `@acme/db/kysely`, `@acme/db/enums`, `@acme/db/browser`, `@acme/db/validators`. See `packages/db/README.md` for usage rules.
 - `packages/redis`, `packages/logging`, `packages/common`, `packages/validators`, `packages/ui` — shared libs. `@acme/ui` builds on `@opengovsg/oui` + `react-aria-components`.
-- `tooling/{eslint,prettier,tailwind,typescript,storybook,github}` — shared configs published as workspace packages (`@acme/eslint-config`, etc.).
+- `tooling/{oxlint,tailwind,typescript,storybook,github}` — shared configs published as workspace packages (`@acme/oxlint-config`, `@acme/tailwind-config`, `@acme/tsconfig`, etc.).
 - `turbo/generators` — plop-style generator backing `pnpm turbo gen init`.
 
 ### tRPC server (`apps/web/src/server`)
@@ -91,6 +91,8 @@ After any change to `prisma/schema.prisma`, run `pnpm -F @acme/db generate` so t
 ### Sessions and auth
 
 `iron-session` cookie-based sessions configured in `apps/web/src/server/session.ts`. `SessionData.userId` is the auth signal. Login flow is OTP-via-email through Postman (`POSTMAN_API_KEY`); without the key, OTPs are logged to the console.
+
+Sign-in is restricted to allowlisted email domains — `ALLOWED_EMAIL_DOMAINS` in `apps/web/src/validators/email.ts` (currently `nus.edu.sg`, `nusx.edu.sg`, `a5x.ai`; subdomains match). Update that list to change who can register/log in.
 
 ### Environment variables
 
