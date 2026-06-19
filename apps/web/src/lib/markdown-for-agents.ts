@@ -17,9 +17,7 @@ interface AcceptEntry {
 function parseAccept(accept: string): AcceptEntry[] {
   return accept.split(',').map((part) => {
     const [rawType, ...params] = part.trim().split(';')
-    const qParam = params
-      .map((p) => p.trim())
-      .find((p) => p.startsWith('q='))
+    const qParam = params.map((p) => p.trim()).find((p) => p.startsWith('q='))
     const q = qParam ? Number.parseFloat(qParam.slice(2)) : 1
     return {
       type: (rawType ?? '').trim().toLowerCase(),

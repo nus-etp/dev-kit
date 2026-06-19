@@ -2,10 +2,7 @@ import type { NextRequest } from 'next/server'
 
 import { NextResponse } from 'next/server'
 
-import {
-  hasMarkdownVersion,
-  prefersMarkdown,
-} from '~/lib/markdown-for-agents'
+import { hasMarkdownVersion, prefersMarkdown } from '~/lib/markdown-for-agents'
 
 interface CspPolicy {
   'default-src'?: string[]
@@ -73,7 +70,8 @@ const vercelLivePolicy = {
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
-  const markdownEnabled = request.method === 'GET' && hasMarkdownVersion(pathname)
+  const markdownEnabled =
+    request.method === 'GET' && hasMarkdownVersion(pathname)
 
   // Markdown for Agents: when a client negotiates `Accept: text/markdown`,
   // rewrite to the markdown route handler. Browsers keep getting HTML.
