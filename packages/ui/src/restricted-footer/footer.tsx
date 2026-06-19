@@ -6,7 +6,6 @@ import { Link } from 'react-aria-components'
 
 import { DEFAULT_SOCIAL_MEDIA_LINKS } from './constants'
 import { FooterLink } from './footer-link'
-import { RestrictedOgpHoriSvgr } from './restricted-ogp-hori-svgr'
 
 const EMPTY_NAV_LINKS: { label: string; href: string }[] = []
 
@@ -53,12 +52,19 @@ export function RestrictedFooter({
               Built by
             </span>
             <Link
-              href="https://www.open.gov.sg/"
+              href="https://enterprise.nus.edu.sg/"
               target="_blank"
-              aria-label="Open Government Products"
+              aria-label="NUS Enterprise"
               rel="noreferrer"
             >
-              <RestrictedOgpHoriSvgr />
+              {/* eslint-disable-next-line @next/next/no-img-element -- @acme/ui must not depend on next/image */}
+              <img
+                src="/assets/nus-enterprise-logo.svg"
+                alt="NUS Enterprise"
+                height={48}
+                width={169}
+                className="h-12 w-auto"
+              />
             </Link>
           </div>
 
@@ -77,7 +83,7 @@ export function RestrictedFooter({
               ))}
             </div>
             <p className="prose-legal text-base-content-medium">
-              ©{currentYear} Open Government Products
+              ©{currentYear} NUS Enterprise
             </p>
           </div>
         </div>

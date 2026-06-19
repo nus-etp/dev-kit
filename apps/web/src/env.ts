@@ -26,7 +26,7 @@ export const env = createEnv({
    * For them to be exposed to the client, prefix them with `NEXT_PUBLIC_`.
    */
   client: {
-    NEXT_PUBLIC_APP_NAME: z.string().default('Starter Kit'),
+    NEXT_PUBLIC_APP_NAME: z.string().default('NUS Enterprise'),
     NEXT_PUBLIC_APP_URL: z.url().optional(),
     NEXT_PUBLIC_APP_VERSION: z.string().default('0.0.0'),
     NEXT_PUBLIC_APP_ENV: z

@@ -15,11 +15,11 @@ import { ibmPlexMono, inter } from '~/lib/fonts'
 
 export const metadata: Metadata = {
   title: env.NEXT_PUBLIC_APP_NAME,
-  description: 'Simple monorepo Starter Kit with for ETP projects',
+  description: 'NUS Enterprise web application',
   openGraph: {
     title: env.NEXT_PUBLIC_APP_NAME,
-    description: 'Simple monorepo Starter Kit with for ETP projects',
-    url: 'https://start.open.gov.sg',
+    description: 'NUS Enterprise web application',
+    url: 'https://enterprise.nus.edu.sg',
     siteName: env.NEXT_PUBLIC_APP_NAME,
   },
 }

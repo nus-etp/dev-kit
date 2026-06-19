@@ -83,13 +83,13 @@ export const EmailStep = ({ onNext }: EmailStepProps) => {
           <TextField
             size="xs"
             inputProps={{
-              placeholder: 'e.g. jane@data.gov.sg',
+              placeholder: 'e.g. jane@nus.edu.sg',
             }}
             errorMessage={error?.message ?? queryError}
             isRequired
             isInvalid={!!error || !!queryError}
             {...field}
-            label="Log in with a .gov.sg or whitelisted email address"
+            label="Log in with your NUS email address"
           />
         )}
       />

@@ -13,14 +13,20 @@ export const emailSchema = z
     z.toLowerCase()
   )
 
-export const govEmailSchema = emailSchema.refine(
+// Domains permitted to sign in. Matches the domain itself and any subdomain
+// (e.g. `nus.edu.sg` matches `u.nus.edu.sg`).
+const ALLOWED_EMAIL_DOMAINS = ['nus.edu.sg', 'nusx.edu.sg', 'a5x.ai']
+
+export const nusEmailSchema = emailSchema.refine(
   (email) => {
     const parsedEmail = parseOneAddress(email)
     // Should not happen due to emailSchema validation
     if (!parsedEmail || parsedEmail.type === 'group') return false
-    return (
-      parsedEmail.domain === 'gov.sg' || parsedEmail.domain.endsWith('.gov.sg')
+    return ALLOWED_EMAIL_DOMAINS.some(
+      (domain) =>
+        parsedEmail.domain === domain ||
+        parsedEmail.domain.endsWith(`.${domain}`)
     )
   },
-  { error: 'Please enter a valid .gov.sg email address.' }
+  { error: 'Please enter a valid NUS email address.' }
 )

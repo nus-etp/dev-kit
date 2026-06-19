@@ -28,16 +28,16 @@ export const SignInPageComponent = () => {
             <div className="prose-caption-3 my-12 flex items-center whitespace-pre">
               Built by{' '}
               <Link
-                href="https://www.open.gov.sg/"
+                href="https://enterprise.nus.edu.sg/"
                 target="_blank"
                 className="inline-flex"
               >
                 <Image
                   className="h-auto w-auto"
-                  src="/assets/restricted-ogp-text-logo.svg"
-                  height={12}
-                  width={232}
-                  alt="Open Government Products"
+                  src="/assets/nus-enterprise-logo.svg"
+                  height={24}
+                  width={85}
+                  alt="NUS Enterprise"
                 />
               </Link>
             </div>

@@ -46,7 +46,7 @@ export const LoginStepLoading: Story = {
     const emailInput = canvas.getByLabelText(/log in/i)
     const submitButton = canvas.getByRole('button', { name: 'Get OTP' })
 
-    await userEvent.type(emailInput, 'example@gov.sg')
+    await userEvent.type(emailInput, 'example@nus.edu.sg')
     await userEvent.click(submitButton)
   },
 }
@@ -56,7 +56,7 @@ export const VerifyOtpStep: Story = {
     const emailInput = canvas.getByLabelText(/log in/i)
     const submitButton = canvas.getByRole('button', { name: 'Get OTP' })
 
-    await userEvent.type(emailInput, 'example@gov.sg')
+    await userEvent.type(emailInput, 'example@nus.edu.sg')
     await userEvent.click(submitButton)
   },
 }

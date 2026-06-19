@@ -3,7 +3,7 @@
  * Choromatic to take snapshots based on the given mode.
  * @see https://www.chromatic.com/docs/modes/ and the `modes.ts` file.
  *
- * Width breakpoints are set as OGPDS defaults (as of writing this ) of
+ * Width breakpoints are set as design-system defaults (as of writing this) of
  *
  * sm: '30em',
  * md: '48em',

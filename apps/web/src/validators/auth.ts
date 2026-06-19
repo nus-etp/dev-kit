@@ -1,6 +1,6 @@
 import z from 'zod'
 
-import { govEmailSchema } from './email'
+import { nusEmailSchema } from './email'
 
 export const OTP_LENGTH = 8
 export const OTP_PREFIX_LENGTH = 3
@@ -24,14 +24,14 @@ export const validateCodeChallenge = (val: string) => {
 }
 
 export const emailSignInSchema = z.object({
-  email: govEmailSchema,
+  email: nusEmailSchema,
   codeChallenge: z.base64url().refine(validateCodeChallenge, {
     message: 'Must be a valid base64url-encoded SHA-256 hash (32 bytes)',
   }),
 })
 
 export const emailVerifyOtpSchema = z.object({
-  email: govEmailSchema,
+  email: nusEmailSchema,
   codeVerifier: z.string().length(PKCE_LENGTH),
   token: z
     .string()

@@ -103,19 +103,19 @@ export const LandingPageComponent = ({
       </LandingSection>
       <LandingSection>
         <SectionHeader>
-          All the government tools you need to manage your workflow
+          Everything you need to bring your venture to life
         </SectionHeader>
         <SectionBody>
-          Check out the <strong>Open Government Products Suite</strong>, and if
-          you are a public officer you can mix and match from our set of
-          productivity and collaboration tools.{' '}
+          Explore the <strong>NUS Enterprise ecosystem</strong> — from
+          incubation and mentorship to industry partnerships, discover the
+          programmes and resources that help you build and scale.{' '}
           <Link
-            href="https://reports.open.gov.sg/products"
+            href="https://enterprise.nus.edu.sg/"
             target="_blank"
             rel="noopener noreferrer"
             className="text-interaction-main-default hover:text-interaction-main-hover inline-flex items-center gap-0.5 underline underline-offset-4"
           >
-            Full list of OGP products
+            Visit NUS Enterprise
             <BiRightArrowAlt className="text-2xl" />
           </Link>
         </SectionBody>
@@ -127,8 +127,8 @@ export const LandingPageComponent = ({
         }}
       >
         <Image
-          alt="ogp brand logo"
-          src="/assets/restricted-landing-ogp-logo.svg"
+          alt="NUS Enterprise crest"
+          src="/assets/nus-crest.svg"
           aria-hidden
           width={56}
           height={56}
@@ -146,8 +146,8 @@ export const LandingPageComponent = ({
           // { href: '/privacy', label: 'Privacy' },
           // { href: '/terms-of-use', label: 'Terms of use' },
           {
-            href: 'https://go.gov.sg/report-vulnerability',
-            label: 'Report vulnerability',
+            href: 'https://enterprise.nus.edu.sg/',
+            label: 'NUS Enterprise',
           },
         ]}
       />
