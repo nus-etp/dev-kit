@@ -77,6 +77,9 @@
     "VERCEL",
     "VERCEL_ENV",
     "VERCEL_URL",
-    "npm_lifecycle_event"
+    "npm_lifecycle_event",
+    "DOCKER_HOST",
+    "TESTCONTAINERS_RYUK_DISABLED",
+    "TESTCONTAINERS_DOCKER_SOCKET_OVERRIDE"
   ]
 }

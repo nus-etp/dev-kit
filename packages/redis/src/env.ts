@@ -3,6 +3,9 @@ import z from 'zod'
 
 export const env = createEnv({
   server: {
+    // Full connection string (e.g. Upstash `rediss://default:<pw>@<host>:6379`).
+    // Takes precedence over the CACHE_* fields when set; `rediss://` enables TLS.
+    REDIS_URL: z.url().optional(),
     CACHE_HOSTNAME: z.string().trim().min(1).optional(),
     CACHE_PORT: z.coerce.number().default(6379).optional(),
     CACHE_USERNAME: z.string().optional(),

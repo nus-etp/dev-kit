@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 
+import { headers } from 'next/headers'
+
 import { Toaster } from '@opengovsg/oui'
 import { cn } from '@opengovsg/oui-theme'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
@@ -24,7 +26,19 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout(props: { children: React.ReactNode }) {
+export default async function RootLayout(props: { children: React.ReactNode }) {
+  // Touching headers() opts every route out of static prerendering, so Next
+  // re-renders per request and its auto-injected inline scripts always carry the
+  // live CSP nonce minted in proxy.ts. The idiomatic alternative to a blunt
+  // app-wide `export const dynamic`.
+  //
+  // We deliberately do NOT forward the nonce to NextTopLoader: its only nonce
+  // target is an inline <style>, which `style-src 'unsafe-inline'` already allows.
+  // Putting a nonce there buys no security and triggers a hydration mismatch —
+  // browsers clear the nonce content attribute from the DOM after parsing, so the
+  // hydrating client tree never matches the server HTML.
+  await headers()
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
