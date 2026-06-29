@@ -83,13 +83,13 @@ export const EmailStep = ({ onNext }: EmailStepProps) => {
           <TextField
             size="xs"
             inputProps={{
-              placeholder: 'e.g. jane@nus.edu.sg',
+              placeholder: 'e.g. jane@example.com',
             }}
             errorMessage={error?.message ?? queryError}
             isRequired
             isInvalid={!!error || !!queryError}
             {...field}
-            label="Log in with your NUS email address"
+            label="Log in with your email address"
           />
         )}
       />

@@ -46,6 +46,7 @@
     "next": "catalog:next",
     "nextjs-toploader": "^3.9.17",
     "nuqs": "^2.8.6",
+    "openid-client": "^6.8.4",
     "rate-limiter-flexible": "^9.0.1",
     "react": "catalog:react",
     "react-aria-components": "catalog:",

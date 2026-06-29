@@ -19,6 +19,18 @@ export const env = createEnv({
     DATABASE_URL: z.url(),
     POSTMAN_API_KEY: z.string().optional(),
     SESSION_SECRET: z.string().min(32),
+    // Okta OIDC SSO (optional). All three must be set together to enable the
+    // "Sign in with Okta" flow; if any is missing the Okta routes hard-fail
+    // with a clear message and the rest of the app still boots.
+    OKTA_ISSUER: z.url().optional(),
+    OKTA_CLIENT_ID: z.string().optional(),
+    OKTA_CLIENT_SECRET: z.string().optional(),
+    // Google OIDC SSO (optional). CLIENT_ID + CLIENT_SECRET must be set together
+    // to enable the "Sign in with Google" flow; if either is missing the Google
+    // routes hard-fail. GOOGLE_ISSUER defaults to Google's well-known issuer.
+    GOOGLE_ISSUER: z.url().default('https://accounts.google.com'),
+    GOOGLE_CLIENT_ID: z.string().optional(),
+    GOOGLE_CLIENT_SECRET: z.string().optional(),
   },
 
   /**
