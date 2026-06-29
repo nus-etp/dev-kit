@@ -1,0 +1,300 @@
+<!doctype html>
+<!--
+  Release highlights TEMPLATE. Copy this folder to
+  artifacts/v_<major>_<minor>_<patch>/ for each release and fill in the
+  {{PLACEHOLDERS}}. Duplicate the <section class="feature"> block per feature,
+  drop screenshots into ./screenshots/ (NN-name.png), and keep the bullets in
+  sync with the matching "## [x.y.z]" section of CHANGELOG.md.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{APP_NAME}} v{{VERSION}} — Release Highlights</title>
+    <style>
+      :root {
+        --ink: #14181f;
+        --muted: #5b6573;
+        --line: #e6e9ee;
+        --bg: #f6f7f9;
+        --card: #ffffff;
+        --accent: #2f6df6;
+        --accent-soft: #eaf1ff;
+        --green: #18794e;
+        --green-soft: #e7f5ee;
+        --amber: #9a6700;
+        --amber-soft: #fff4e0;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        font-family:
+          "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif;
+        color: var(--ink);
+        background: var(--bg);
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+      }
+      .wrap {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 0 24px 96px;
+      }
+
+      /* Hero */
+      header.hero {
+        background:
+          radial-gradient(
+            1200px 400px at 80% -10%,
+            #e9f0ff 0%,
+            transparent 60%
+          ),
+          linear-gradient(180deg, #ffffff 0%, #f6f7f9 100%);
+        border-bottom: 1px solid var(--line);
+        padding: 64px 24px 48px;
+      }
+      .hero-inner {
+        max-width: 960px;
+        margin: 0 auto;
+      }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--accent);
+        background: var(--accent-soft);
+        border: 1px solid #d4e2ff;
+        padding: 5px 12px;
+        border-radius: 999px;
+        letter-spacing: 0.02em;
+      }
+      h1 {
+        font-size: 44px;
+        line-height: 1.1;
+        margin: 18px 0 10px;
+        letter-spacing: -0.02em;
+      }
+      .lede {
+        font-size: 18px;
+        color: var(--muted);
+        max-width: 660px;
+        margin: 0;
+      }
+      .meta-row {
+        margin-top: 24px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 28px;
+        font-size: 14px;
+        color: var(--muted);
+      }
+      .meta-row b {
+        color: var(--ink);
+        font-weight: 600;
+      }
+
+      /* TOC */
+      nav.toc {
+        margin: 40px 0 8px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 10px;
+      }
+      nav.toc a {
+        text-decoration: none;
+        color: var(--ink);
+        font-size: 14px;
+        font-weight: 500;
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 12px 14px;
+        transition:
+          border-color 0.15s,
+          transform 0.15s;
+      }
+      nav.toc a:hover {
+        border-color: var(--accent);
+        transform: translateY(-1px);
+      }
+      nav.toc a span {
+        display: block;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 400;
+        margin-top: 2px;
+      }
+
+      /* Feature card */
+      section.feature {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 32px;
+        margin-top: 28px;
+        scroll-margin-top: 24px;
+      }
+      .tag {
+        display: inline-block;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        padding: 3px 9px;
+        border-radius: 6px;
+        margin-bottom: 14px;
+      }
+      .tag.web {
+        color: var(--accent);
+        background: var(--accent-soft);
+      }
+      .tag.integration {
+        color: var(--green);
+        background: var(--green-soft);
+      }
+      .tag.platform {
+        color: var(--amber);
+        background: var(--amber-soft);
+      }
+      section.feature h2 {
+        font-size: 26px;
+        margin: 0 0 8px;
+        letter-spacing: -0.01em;
+      }
+      section.feature p.desc {
+        color: var(--muted);
+        font-size: 16px;
+        margin: 0 0 18px;
+        max-width: 720px;
+      }
+      ul.points {
+        margin: 0 0 22px;
+        padding-left: 0;
+        list-style: none;
+        display: grid;
+        gap: 8px;
+      }
+      ul.points li {
+        position: relative;
+        padding-left: 26px;
+        font-size: 15px;
+      }
+      ul.points li::before {
+        content: "";
+        position: absolute;
+        left: 4px;
+        top: 8px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--accent);
+      }
+      .shot {
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 1px 2px rgba(20, 24, 31, 0.04);
+      }
+      .shot img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+      .shot .cap {
+        font-size: 13px;
+        color: var(--muted);
+        padding: 10px 14px;
+        border-top: 1px solid var(--line);
+        background: #fbfcfd;
+      }
+
+      /* Diagram */
+      .diagram {
+        width: 100%;
+        height: auto;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: #fbfcfd;
+      }
+
+      footer {
+        margin-top: 48px;
+        padding-top: 24px;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 13px;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+      code {
+        font-family: "SFMono-Regular", ui-monospace, Menlo, Consolas, monospace;
+        font-size: 0.88em;
+        background: #f0f2f5;
+        padding: 1px 6px;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="hero">
+      <div class="hero-inner">
+        <span class="pill">● Release · v{{VERSION}}</span>
+        <h1>What's new in {{APP_NAME}}</h1>
+        <p class="lede">{{HERO_LEDE}}</p>
+        <div class="meta-row">
+          <div>Version <b>{{VERSION}}</b></div>
+          <div>Released <b>{{RELEASE_DATE}}</b></div>
+          <div>Previous <b>v{{PREVIOUS_VERSION}}</b> ({{PREVIOUS_DATE}})</div>
+          <div>Scope <b>{{SCOPE_SUMMARY}}</b></div>
+        </div>
+      </div>
+    </header>
+
+    <div class="wrap">
+      <nav class="toc">
+        <!-- One <a> per feature; href points at the section id below. -->
+        <a href="#feature-one"
+          >{{FEATURE_ONE_TITLE}}<span>{{FEATURE_ONE_KICKER}}</span></a
+        >
+      </nav>
+
+      <!-- FEATURE — duplicate this block per feature. -->
+      <section class="feature" id="feature-one">
+        <span class="tag web">{{FEATURE_ONE_TAG}}</span>
+        <h2>{{FEATURE_ONE_TITLE}}</h2>
+        <p class="desc">{{FEATURE_ONE_DESC}}</p>
+        <ul class="points">
+          <li>{{FEATURE_ONE_POINT_A}}</li>
+          <li>{{FEATURE_ONE_POINT_B}}</li>
+          <li>{{FEATURE_ONE_POINT_C}}</li>
+        </ul>
+        <!-- Optional: drop a PNG into ./screenshots/ and reference it here. -->
+        <div class="shot">
+          <img
+            src="screenshots/01-feature-one.png"
+            alt="{{FEATURE_ONE_SCREENSHOT_ALT}}"
+          />
+          <div class="cap">{{FEATURE_ONE_SCREENSHOT_CAPTION}}</div>
+        </div>
+      </section>
+
+      <footer>
+        <div>{{APP_NAME}} · {{APP_TAGLINE}}</div>
+        <div>
+          v{{VERSION}} — generated {{RELEASE_DATE}} · source of truth:
+          CHANGELOG.md
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

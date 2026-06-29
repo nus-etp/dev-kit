@@ -1,4 +1,16 @@
+import { readFileSync } from 'node:fs'
+
 import { createJiti } from 'jiti'
+
+// Single source of truth for the app version: the monorepo root package.json.
+// Surfaced to the client as NEXT_PUBLIC_APP_VERSION (used by the version-check
+// banner and the footer) unless explicitly overridden in the environment.
+// The starter kit itself is intentionally unversioned — child apps add a
+// `version` field (e.g. via the /release skill) and it flows through here.
+const { version } = JSON.parse(
+  readFileSync(new URL('../../package.json', import.meta.url), 'utf8')
+)
+if (version) process.env.NEXT_PUBLIC_APP_VERSION ||= version
 
 const jiti = createJiti(import.meta.url)
 

@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation'
 
 import { EnvBanner } from '../_components/env-banner'
 import { VersionCheckWrapper } from '../_components/version-check-wrapper'
+import { AppFooter } from './_components/app-footer'
 import { AuthedNavbar } from './_components/authed-navbar'
 
 import { LOGIN_ROUTE } from '~/constants'
@@ -29,6 +30,7 @@ export default async function AuthedLayout({ children }: DynamicLayoutProps) {
         <div className="container mx-auto flex flex-col gap-4 p-4">
           {children}
         </div>
+        <AppFooter />
       </main>
     </HydrateClient>
   )
