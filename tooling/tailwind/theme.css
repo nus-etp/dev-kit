@@ -2,7 +2,85 @@
   --font-sans: var(--font-inter);
   --font-mono: var(--font-ibm-plex-mono);
 
-  /* add your application's color theme overrides here */
-  /* --color-brand-primary-50: #eff6ff; */
+  /*
+   * NUS Enterprise brand palette
+   * Source: "NUS ETP — Brand Toolkit for Vendors" (§2.11 Brand Colour Palette).
+   *
+   * Master brand colours:
+   *   Primary blue   Pantone 294 C  #002F6C  → drives primary/interactive UI
+   *   Primary orange Pantone 152 C  #E57200  → energy accent (brand-accent-*)
+   *   Secondary grey Cool Gray 10 C #63666A  → neutral secondary
+   *   Near-black     Process Black C #2C2A29 → strongest text/ink
+   *
+   * The 50–900 ramps are tint/shade steps generated from each anchor (base at
+   * 500). We override both the `brand-*` colour scales AND the semantic tokens
+   * (interaction-main / links / focus / feedback-info / *-brand) that oui-theme
+   * seeds with its default blue — overriding the scale alone would leave buttons
+   * and links on the old colour.
+   *
+   * Typography note: the brand typeface is Frutiger (fallback Arial). Frutiger is
+   * a licensed font not distributed for the web, so we render with Inter — a
+   * humanist sans close to Frutiger in character — via --font-sans above.
+   */
+
+  /* --- Primary blue (brand-primary) --- */
+  --color-brand-primary-50: #f0f3f6;
+  --color-brand-primary-100: #d6dee7;
+  --color-brand-primary-200: #a3b4ca;
+  --color-brand-primary-300: #708bad;
+  --color-brand-primary-400: #385d8c;
+  --color-brand-primary-500: #002f6c;
+  --color-brand-primary-600: #00295f;
+  --color-brand-primary-700: #002452;
+  --color-brand-primary-800: #001c41;
+  --color-brand-primary-900: #00142d;
+
+  /* --- Secondary grey (brand-secondary) — Cool Gray 10 C --- */
+  --color-brand-secondary-50: #f6f6f6;
+  --color-brand-secondary-100: #e6e7e7;
+  --color-brand-secondary-200: #c7c8c9;
+  --color-brand-secondary-300: #a8a9ac;
+  --color-brand-secondary-400: #85888b;
+  --color-brand-secondary-500: #63666a;
+  --color-brand-secondary-600: #575a5d;
+  --color-brand-secondary-700: #4b4e51;
+  --color-brand-secondary-800: #3b3d40;
+  --color-brand-secondary-900: #2a2b2d;
+
+  /* --- Accent orange (brand-accent) — Pantone 152 C --- */
+  --color-brand-accent-50: #fdf7f0;
+  --color-brand-accent-100: #fbe8d6;
+  --color-brand-accent-200: #f6cca3;
+  --color-brand-accent-300: #f0b070;
+  --color-brand-accent-400: #eb9138;
+  --color-brand-accent-500: #e57200;
+  --color-brand-accent-600: #ca6400;
+  --color-brand-accent-700: #ae5700;
+  --color-brand-accent-800: #894400;
+  --color-brand-accent-900: #603000;
+
+  /* --- Semantic tokens keyed to the brand blue --- */
+  --color-base-content-brand: #002f6c;
+  --color-base-divider-brand: #002f6c;
+  --color-base-canvas-brand-subtle: #f0f3f6;
+
+  --color-interaction-main-default: #002f6c;
+  --color-interaction-main-hover: #00295f;
+  --color-interaction-main-active: #002452;
+  --color-interaction-main-subtle-default: #d6dee7;
+  --color-interaction-main-subtle-hover: #a3b4ca;
+  --color-interaction-main-subtle-active: #708bad;
+  --color-interaction-muted-main-hover: #f0f3f6;
+  --color-interaction-muted-main-active: #d6dee7;
+  --color-interaction-tinted-main-hover: rgba(0, 47, 108, 0.04);
+  --color-interaction-tinted-main-active: rgba(0, 47, 108, 0.12);
+
+  --color-interaction-links-default: #002f6c;
+  --color-interaction-links-hover: #00295f;
+
+  --color-utility-feedback-info: #002f6c;
+  --color-utility-feedback-info-subtle: #f0f3f6;
+  --color-utility-focus-default: #002f6c;
+
   --theme-border-color-focus-ring: var(--color-utility-focus-default);
 }
