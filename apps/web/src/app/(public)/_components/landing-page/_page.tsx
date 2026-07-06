@@ -127,8 +127,8 @@ export const LandingPageComponent = ({
         }}
       >
         <Image
-          alt="NUS Enterprise crest"
-          src="/assets/nus-crest.svg"
+          alt="NUSX"
+          src="/assets/nusx-mark.svg"
           aria-hidden
           width={56}
           height={56}

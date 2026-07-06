@@ -59,10 +59,10 @@ export function RestrictedFooter({
             >
               {/* eslint-disable-next-line @next/next/no-img-element -- @acme/ui must not depend on next/image */}
               <img
-                src="/assets/nus-enterprise-logo.svg"
+                src="/assets/nus-enterprise-logo.svg?v=3"
                 alt="NUS Enterprise"
                 height={48}
-                width={169}
+                width={219}
                 className="h-12 w-auto"
               />
             </Link>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 512 512" role="img" aria-label="NUSX">
+  <!-- App icon: brand neon "X" on a dark rounded square — legible on any tab bar. -->
+  <rect width="512" height="512" rx="112" fill="#111111"/>
+  <g fill="#e6fe6c" transform="translate(256 256) scale(1.28) translate(-840.75 -149.35)">
+    <path d="M960,6.1h-57.3l-47.8,75.5,28.6,45.3L960,6.1Z"/>
+    <path d="M854.9,217l47.8,75.5h57.3l-76.5-120.8-28.6,45.3Z"/>
+    <path d="M840.7,104l-61.9-98h-57.3l82.9,131.1h57.3l-21-33.1Z"/>
+    <path d="M861.6,161.6h-57.3l-82.9,131h57.3l61.9-98,21-33Z"/>
+  </g>
+</svg>

@@ -26,9 +26,9 @@ export const SignInPageComponent = () => {
         <div className="mt-8 flex-1 grid-cols-12 md:grid lg:col-span-3 lg:col-start-9 lg:mt-[40%] lg:flex">
           <div className="flex h-full w-full flex-col gap-4 max-lg:px-4 md:col-span-6 md:col-start-4">
             <Image
-              src="/assets/nus-enterprise-logo.svg"
+              src="/assets/nusx-logo.svg"
               alt={env.NEXT_PUBLIC_APP_NAME}
-              width={176}
+              width={161}
               height={50}
               className="h-10 w-auto"
               priority
