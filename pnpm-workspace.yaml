@@ -5,11 +5,11 @@ packages:
 
 catalog:
   '@hookform/resolvers': ^5.2.2
-  '@opengovsg/starter-kitty-logging': ^0.2.0
+  '@opengovsg/logging': ^0.5.1
   '@types/node': ^24.10.4
   'oxlint': ^1.64.0
   'oxlint-tsgolint': ^0.22.1
-  dd-trace: ^5.81.0
+  dd-trace: ^6.1.0
   dotenv-cli: ^11.0.0
   oxfmt: ^0.41.0
   prisma-extension-kysely: ^4.0.0
@@ -21,8 +21,8 @@ catalog:
 
 catalogs:
   next:
-    '@next/env': 16.2.6
-    next: 16.2.6
+    '@next/env': 16.2.11
+    next: 16.2.11
   oui:
     '@opengovsg/oui': 0.0.52
     '@opengovsg/oui-theme': 0.0.52
@@ -53,7 +53,7 @@ catalogs:
     '@t3-oss/env-nextjs': ^0.13.8
   tailwindcss4:
     '@tailwindcss/postcss': ^4.3.0
-    "@tailwindcss/vite": ^4.3.0
+    '@tailwindcss/vite': ^4.3.0
     tailwindcss: ^4.3.0
   trpc:
     '@trpc/client': ^11.16.0
@@ -98,7 +98,6 @@ allowBuilds:
   cpu-features: false
   dd-trace: false
   msw: false
-  prisma-zod-generator: false
   protobufjs: false
   sharp: false
   ssh2: false
