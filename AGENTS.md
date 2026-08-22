@@ -96,7 +96,7 @@ After any change to `prisma/schema.prisma`, run `pnpm -F @acme/db generate` so t
 
 ### Sessions and auth
 
-`iron-session` cookie-based sessions configured in `apps/web/src/server/session.ts`. `SessionData.userId` is the auth signal. Login flow is OTP-via-email through Postman (`POSTMAN_API_KEY`); without the key, OTPs are logged to the console.
+`iron-session` cookie-based sessions configured in `apps/web/src/server/session.ts`. `SessionData.userId` is the auth signal. Login flow is OTP-via-email through Resend (`RESEND_API_KEY` + `RESEND_FROM`, sent in `apps/web/src/server/modules/mail/mail.service.ts`); without `RESEND_API_KEY`, OTPs are logged to the console. Optional Okta/Google OIDC SSO is also scaffolded (see `env.ts`).
 
 Sign-in is restricted to allowlisted email domains — `ALLOWED_EMAIL_DOMAINS` in `apps/web/src/validators/email.ts` (currently `nus.edu.sg`, `nusx.edu.sg`, `a5x.ai`; subdomains match). Update that list to change who can register/log in.
 
@@ -104,7 +104,7 @@ Sign-in is restricted to allowlisted email domains — `ALLOWED_EMAIL_DOMAINS` i
 
 Validated with `@t3-oss/env-nextjs` + Zod in `apps/web/src/env.ts` and `packages/db/src/env.ts`. Client-exposed variables must be prefixed `NEXT_PUBLIC_` **and** explicitly listed in `experimental__runtimeEnv` in `env.ts` — otherwise Next.js will tree-shake them out of the client bundle. Validation is skipped during `lint` and when `SKIP_ENV_VALIDATION=1` (e.g. Storybook).
 
-`turbo.json` lists `globalEnv` (DATABASE_URL, SESSION_SECRET, PORT, POSTMAN_API_KEY, DD_SERVICE) — adding a new env var consumed by Turbo tasks usually means updating that list too, otherwise cache keys won't reflect it.
+`turbo.json` lists `globalEnv` (DATABASE_URL, SESSION_SECRET, PORT, RESEND_API_KEY, RESEND_FROM, DD_SERVICE) — adding a new env var consumed by Turbo tasks usually means updating that list too, otherwise cache keys won't reflect it.
 
 ### pnpm catalogs
 
@@ -118,4 +118,4 @@ Playwright e2e is separate: `pnpm -F @acme/web e2e` boots its own Next dev serve
 
 ### Build pipeline
 
-`turbo.json` defines task dependencies. Notable: `lint` and `typecheck` `dependsOn ["^topo", "^build"]`, so internal packages must build (or at least their `topo` placeholder runs) before downstream typechecking. `vercel-build` for the web app `dependsOn` `@acme/db#generate` and `@acme/db#migrate:deploy` — production builds will run migrations.
+`turbo.json` defines task dependencies. Notable: `lint` and `typecheck` `dependsOn ["^topo", "^build"]`, so internal packages must build (or at least their `topo` placeholder runs) before downstream typechecking. `vercel-build` for the web app `dependsOn` `@acme/db#generate` and `@acme/db#push:deploy` — production builds sync the schema via `prisma db push` (prototype-friendly: no migration files needed; swap back to `migrate:deploy` for apps holding real data).

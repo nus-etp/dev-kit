@@ -7,9 +7,9 @@
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
 
   "secrets": {
-    "POSTMAN_API_KEY": {
-      "description": "Your API key from Postman to send emails. Required for OTP logins.",
-      "documentationUrl": "https://guide.postman.gov.sg/api-guide/generate-your-api-key"
+    "RESEND_API_KEY": {
+      "description": "Your API key from Resend to send emails. Required for OTP logins (a no-auth prototype can skip this). See docs/EMAIL_SETUP.md.",
+      "documentationUrl": "https://resend.com/docs/dashboard/api-keys/introduction"
     }
   },
 
@@ -21,7 +21,7 @@
   "forwardPorts": [3000, 5432, 8080],
 
   // Use 'postCreateCommand' to run commands after the container is created.
-  "postCreateCommand": "npm install && sed s/SESSION_SECRET=random_session_secret_that_is_at_least_32_characters/SESSION_SECRET=`npx uuid`/ .env.example  | sed s/POSTMAN_API_KEY=// > .env.development.local && export $(grep DATABASE_URL .env.development.local | xargs) && npm run migrate"
+  "postCreateCommand": "npm install && sed s/SESSION_SECRET=random_session_secret_that_is_at_least_32_characters/SESSION_SECRET=`npx uuid`/ .env.example  | sed s/RESEND_API_KEY=// > .env.development.local && export $(grep DATABASE_URL .env.development.local | xargs) && npm run migrate"
 
   // Configure tool-specific properties.
   // "customizations": {},
