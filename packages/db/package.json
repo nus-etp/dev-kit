@@ -40,6 +40,7 @@
     "migrate:deploy": "pnpm with-env prisma migrate deploy",
     "migrate:dev": "pnpm with-env prisma migrate dev",
     "push": "pnpm with-env prisma db push",
+    "push:deploy": "pnpm with-env prisma db push --accept-data-loss --skip-generate",
     "reset": "pnpm with-env prisma migrate reset",
     "seed": "pnpm with-env prisma db seed",
     "studio": "pnpm with-env prisma studio --port 5556",

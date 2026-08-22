@@ -17,7 +17,11 @@ export const env = createEnv({
     PORT: z.coerce.number().default(3000),
     OTP_EXPIRY: z.coerce.number().positive().optional().default(600), // OTP expiry time in seconds
     DATABASE_URL: z.url(),
-    POSTMAN_API_KEY: z.string().optional(),
+    // Email is sent via Resend (https://resend.com). Both are optional so
+    // no-auth prototypes (and local dev) boot without them; when RESEND_API_KEY
+    // is set, RESEND_FROM must be a verified sender or sendMail throws.
+    RESEND_API_KEY: z.string().optional(),
+    RESEND_FROM: z.string().optional(), // e.g. "App Name <noreply@your-app.nusx.edu.sg>"
     SESSION_SECRET: z.string().min(32),
     // Okta OIDC SSO (optional). All three must be set together to enable the
     // "Sign in with Okta" flow; if any is missing the Okta routes hard-fail

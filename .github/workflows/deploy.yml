@@ -1,0 +1,34 @@
+# Triggers a Vercel deploy via a Deploy Hook, rather than Vercel's native Git
+# integration. This lets ANY committer's push deploy under a single shared
+# Vercel account — the Git integration would otherwise require each commit
+# author to be a member of the Vercel team. See SETUP.md.
+#
+# Requires two repo secrets (set by whoever runs the per-app setup):
+#   VERCEL_DEPLOY_HOOK_MAIN     -> the app's production deploy hook (main branch)
+#   VERCEL_DEPLOY_HOOK_PREVIEW  -> the app's staging deploy hook (preview branch)
+name: Deploy to Vercel
+
+on:
+  push:
+    branches: [main, preview]
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger the right Vercel deploy hook
+        env:
+          HOOK_MAIN: ${{ secrets.VERCEL_DEPLOY_HOOK_MAIN }}
+          HOOK_PREVIEW: ${{ secrets.VERCEL_DEPLOY_HOOK_PREVIEW }}
+        run: |
+          if [ "${{ github.ref_name }}" = "main" ]; then
+            HOOK="$HOOK_MAIN"
+          else
+            HOOK="$HOOK_PREVIEW"
+          fi
+          if [ -z "$HOOK" ]; then
+            echo "::error::No deploy hook configured for branch '${{ github.ref_name }}'. Set the VERCEL_DEPLOY_HOOK_* repo secret (see SETUP.md)."
+            exit 1
+          fi
+          echo "Triggering Vercel deploy for '${{ github.ref_name }}'..."
+          curl -fsS -X POST "$HOOK"

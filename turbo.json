@@ -12,7 +12,7 @@
     "vercel-build": {
       "dependsOn": [
         "@acme/db#generate",
-        "@acme/db#migrate:deploy",
+        "@acme/db#push:deploy",
         "^vercel-build"
       ],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
@@ -53,6 +53,10 @@
       "cache": false,
       "env": ["DATABASE_URL"]
     },
+    "push:deploy": {
+      "cache": false,
+      "env": ["DATABASE_URL"]
+    },
     "test": {
       "dependsOn": ["@acme/db#generate"],
       "cache": false,
@@ -75,7 +79,8 @@
     "DATABASE_URL",
     "SESSION_SECRET",
     "PORT",
-    "POSTMAN_API_KEY",
+    "RESEND_API_KEY",
+    "RESEND_FROM",
     "DD_SERVICE"
   ],
   "globalPassThroughEnv": [
