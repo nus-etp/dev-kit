@@ -3,5 +3,11 @@
   "options": {
     "typeAware": true,
     "reportUnusedDisableDirectives": "off"
-  }
+  },
+  "jsPlugins": [
+    {
+      "name": "anti-slop",
+      "specifier": "../../tools/oxlint/anti-slop/index.ts"
+    }
+  ]
 }

@@ -6,6 +6,7 @@ packages:
 catalog:
   '@hookform/resolvers': ^5.2.2
   '@opengovsg/logging': ^0.5.1
+  '@oxlint/plugins': 1.64.0
   '@types/node': ^24.10.4
   'oxlint': ^1.64.0
   'oxlint-tsgolint': ^0.22.1

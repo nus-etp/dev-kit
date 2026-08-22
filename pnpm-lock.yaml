@@ -12,6 +12,9 @@ catalogs:
     '@opengovsg/logging':
       specifier: ^0.5.1
       version: 0.5.1
+    '@oxlint/plugins':
+      specifier: 1.64.0
+      version: 1.64.0
     '@types/node':
       specifier: ^24.10.4
       version: 24.10.4
@@ -171,6 +174,9 @@ importers:
 
   .:
     devDependencies:
+      '@oxlint/plugins':
+        specifier: 'catalog:'
+        version: 1.64.0
       '@turbo/gen':
         specifier: ^2.10.5
         version: 2.10.11(@types/node@25.0.3)
@@ -2094,6 +2100,10 @@ packages:
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [win32]
+
+  '@oxlint/plugins@1.64.0':
+    resolution: {integrity: sha512-aUOYj3qpaR/Mbo0HQo8CuwrxbkwRTpsxMlvaQ00INGXS1KdvllRHU1eEn7WYgwhgK3cXtAbLP13VjSknwdxvzA==}
+    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
 
   '@pinojs/redact@0.4.0':
     resolution: {integrity: sha512-k2ENnmBugE/rzQfEcdWHcCY+/FM3VLzH9cYEsbdsoqrvzAKRhUZeRNhAZvB8OitQJ1TBed3yqWtdjzS6wJKBwg==}
@@ -7726,6 +7736,8 @@ snapshots:
 
   '@oxlint/binding-win32-x64-msvc@1.64.0':
     optional: true
+
+  '@oxlint/plugins@1.64.0': {}
 
   '@pinojs/redact@0.4.0': {}
 
