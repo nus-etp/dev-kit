@@ -119,3 +119,12 @@ Playwright e2e is separate: `pnpm -F @acme/web e2e` boots its own Next dev serve
 ### Build pipeline
 
 `turbo.json` defines task dependencies. Notable: `lint` and `typecheck` `dependsOn ["^topo", "^build"]`, so internal packages must build (or at least their `topo` placeholder runs) before downstream typechecking. `vercel-build` for the web app `dependsOn` `@acme/db#generate` and `@acme/db#migrate:deploy` — production builds will run migrations.
+
+## Design for senior/non-technical users
+
+Primary users of apps built on this kit include prof-level and other senior staff who will not self-serve through a generic flow — they won't read instructions, won't troubleshoot, and resist changing established habits (e.g. switching email, re-authenticating, learning a new login step). Treat this as a UX constraint, not an edge case:
+
+- Minimize steps in onboarding/auth/first-run flows; pre-fill or auto-detect anything you can instead of asking the user to configure it.
+- Prefer flows that work via a link someone else sends them over flows that require them to initiate setup.
+- Write any user-facing copy as explicit, numbered, can't-miss-it instructions — never assume a user will infer the next step.
+- When in doubt, design for "someone does this for them" (admin-assisted, magic link, pre-provisioned account) over pure self-service.
