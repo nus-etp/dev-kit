@@ -17,11 +17,11 @@ import { ibmPlexMono, inter } from '~/lib/fonts'
 
 export const metadata: Metadata = {
   title: env.NEXT_PUBLIC_APP_NAME,
-  description: 'NUS Enterprise web application',
+  description: 'NUSX web application',
   openGraph: {
     title: env.NEXT_PUBLIC_APP_NAME,
-    description: 'NUS Enterprise web application',
-    url: 'https://enterprise.nus.edu.sg',
+    description: 'NUSX web application',
+    url: 'https://nusx.edu.sg',
     siteName: env.NEXT_PUBLIC_APP_NAME,
   },
 }

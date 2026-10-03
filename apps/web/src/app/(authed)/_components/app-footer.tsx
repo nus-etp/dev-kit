@@ -12,15 +12,15 @@ export function AppFooter() {
           Built with <span aria-hidden="true">❤️</span>
           <span className="sr-only">love</span> by
           <a
-            href="https://enterprise.nus.edu.sg/"
+            href="https://nusx.edu.sg/"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center"
           >
             <Image
-              src="/assets/nus-enterprise-logo.svg?v=3"
-              alt="NUS Enterprise"
-              width={114}
+              src="/assets/nusx-logo-black.svg"
+              alt="NUSX"
+              width={81}
               height={25}
               className="inline-block h-4 w-auto"
             />

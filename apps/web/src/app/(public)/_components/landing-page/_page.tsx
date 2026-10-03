@@ -106,16 +106,16 @@ export const LandingPageComponent = ({
           Everything you need to bring your venture to life
         </SectionHeader>
         <SectionBody>
-          Explore the <strong>NUS Enterprise ecosystem</strong> — from
-          incubation and mentorship to industry partnerships, discover the
-          programmes and resources that help you build and scale.{' '}
+          Explore the <strong>NUSX ecosystem</strong> — from incubation and
+          mentorship to industry partnerships, discover the programmes and
+          resources that help you build and scale.{' '}
           <Link
-            href="https://enterprise.nus.edu.sg/"
+            href="https://nusx.edu.sg/"
             target="_blank"
             rel="noopener noreferrer"
             className="text-interaction-main-default hover:text-interaction-main-hover inline-flex items-center gap-0.5 underline underline-offset-4"
           >
-            Visit NUS Enterprise
+            Visit NUSX
             <BiRightArrowAlt className="text-2xl" />
           </Link>
         </SectionBody>
@@ -146,8 +146,8 @@ export const LandingPageComponent = ({
           // { href: '/privacy', label: 'Privacy' },
           // { href: '/terms-of-use', label: 'Terms of use' },
           {
-            href: 'https://enterprise.nus.edu.sg/',
-            label: 'NUS Enterprise',
+            href: 'https://nusx.edu.sg/',
+            label: 'NUSX',
           },
         ]}
       />

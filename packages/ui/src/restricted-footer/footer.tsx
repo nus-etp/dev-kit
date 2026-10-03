@@ -52,17 +52,17 @@ export function RestrictedFooter({
               Built by
             </span>
             <Link
-              href="https://enterprise.nus.edu.sg/"
+              href="https://nusx.edu.sg/"
               target="_blank"
-              aria-label="NUS Enterprise"
+              aria-label="NUSX"
               rel="noreferrer"
             >
               {/* eslint-disable-next-line @next/next/no-img-element -- @acme/ui must not depend on next/image */}
               <img
-                src="/assets/nus-enterprise-logo.svg?v=3"
-                alt="NUS Enterprise"
+                src="/assets/nusx-logo-black.svg"
+                alt="NUSX"
                 height={48}
-                width={219}
+                width={155}
                 className="h-12 w-auto"
               />
             </Link>
@@ -83,7 +83,7 @@ export function RestrictedFooter({
               ))}
             </div>
             <p className="prose-legal text-base-content-medium">
-              ©{currentYear} NUS Enterprise
+              ©{currentYear} NUSX
             </p>
           </div>
         </div>

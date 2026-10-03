@@ -47,7 +47,7 @@ export function prefersMarkdown(accept: string | null): boolean {
  * corresponding pages' visible content when copy changes.
  */
 export const markdownDocuments: Record<string, string> = {
-  '/': `# NUS Enterprise
+  '/': `# NUSX
 
 > Build production ready applications in minutes.
 
@@ -69,9 +69,9 @@ Sign in with your email address and start building your app immediately. It's fr
 
 ## Everything you need to bring your venture to life
 
-Explore the **NUS Enterprise ecosystem** — from incubation and mentorship to industry partnerships, discover the programmes and resources that help you build and scale.
+Explore the **NUSX ecosystem** — from incubation and mentorship to industry partnerships, discover the programmes and resources that help you build and scale.
 
-[Visit NUS Enterprise](https://enterprise.nus.edu.sg/)
+[Visit NUSX](https://nusx.edu.sg/)
 `,
 }
 

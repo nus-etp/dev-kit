@@ -47,7 +47,7 @@ export function GET(): Response {
   const sitemapUrl = `${getSiteUrl()}/sitemap.xml`
 
   const lines = [
-    '# robots.txt — NUS Enterprise',
+    '# robots.txt — NUSX',
     '# Robots Exclusion Protocol: https://www.rfc-editor.org/rfc/rfc9309',
     '',
     '# General crawlers: index public pages, but opt out of AI training and',

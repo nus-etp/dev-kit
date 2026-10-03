@@ -2,7 +2,7 @@ import { BiLogoFacebook, BiLogoInstagram, BiLogoLinkedin } from 'react-icons/bi'
 
 export const DEFAULT_SOCIAL_MEDIA_LINKS = [
   {
-    href: 'https://www.linkedin.com/company/nus-enterprise',
+    href: 'https://linkedin.com/company/nusx',
     Icon: BiLogoLinkedin,
     label: 'Go to our LinkedIn page',
   },
@@ -12,7 +12,7 @@ export const DEFAULT_SOCIAL_MEDIA_LINKS = [
     label: 'Go to our Facebook page',
   },
   {
-    href: 'https://www.instagram.com/nusenterprise',
+    href: 'https://www.instagram.com/nusx_global/',
     Icon: BiLogoInstagram,
     label: 'Go to our Instagram page',
   },
