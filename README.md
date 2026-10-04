@@ -175,6 +175,66 @@ The deployment needs a few environment variables to be set for it to function. T
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fopengovsg%2Fstarter-kit%2Ftree%2Fmain&env=SESSION_SECRET)
 
+### Deploy to a VM (pm2, zero-downtime builds)
+
+For a self-hosted VM, run the app under pm2 with `apps/web/ecosystem.config.cjs`
+(cluster mode, `WEB_INSTANCES` workers, default 2; process name from
+`PM2_APP_NAME`, default `web`). It loads the repo-root `.env` with Node's
+`--env-file`.
+
+Don't run `pnpm build` in the live checkout: `next build` wipes its output
+directory as soon as it starts, so the site serves 500s for the whole build.
+Deploy with `scripts/deploy-build.sh` instead:
+
+1. builds into a fresh `apps/web/.next-<utc-timestamp>-<sha>` (Next's `distDir`
+   comes from `NEXT_DIST_DIR`, default `.next`);
+2. stops unless the new directory has `BUILD_ID` and `static/`, so a failed
+   build leaves the live one untouched;
+3. atomically repoints the `apps/web/.next` symlink at it (`ln -sfn` to a temp
+   name, then `mv -T`). The first time, an existing real `.next` directory is
+   moved aside to `.next-<ts>-legacy`;
+4. keeps the newest `DEPLOY_KEEP_BUILDS` build directories (default 3, minimum 2) and never prunes the active one.
+
+When pm2 starts, `ecosystem.config.cjs` resolves the `.next` symlink and pins
+each worker's `NEXT_DIST_DIR` to that directory, because Turbopack bakes
+`distDir` into the server chunks. Running workers never see the swap. The new
+build goes live when you restart pm2, which costs a ~1-2s blip:
+
+```bash
+git pull --ff-only
+pnpm install --frozen-lockfile
+pnpm -F @acme/db generate
+pnpm -F @acme/db migrate:deploy
+bash scripts/deploy-build.sh
+pm2 delete web; pm2 start apps/web/ecosystem.config.cjs && pm2 save
+```
+
+Use `pm2 delete` + `pm2 start`, not `pm2 reload`. A reload keeps the old
+workers' resolved Next binary and environment.
+
+**Rollback** to a kept build:
+
+```bash
+cd apps/web
+ls -d .next-*/
+ln -sfn .next-<previous> .next.swap && mv -T .next.swap .next
+pm2 delete web; pm2 start ecosystem.config.cjs && pm2 save
+```
+
+Rolling back the build doesn't roll back the database or `node_modules`.
+
+**Migrations must be backward-compatible (expand/contract).** Migrations run
+before the new build goes live, so for the whole build the old code serves
+traffic against the new schema. Add nullable or defaulted columns and new
+tables first. Drop or rename only in a later release, once no deployed code reads
+them. A migration that breaks the old code turns the build window back into an
+outage.
+
+**Known gap:** `pnpm install` and `prisma generate` still run in the live
+checkout. Running workers have usually loaded what they need already, but on a
+deploy that changes `pnpm-lock.yaml`, a code path they haven't loaded yet can
+pick up the new dependency versions before the restart.
+
 ## References
 
 The stack originates from [create-t3-app](https://github.com/t3-oss/create-t3-app) and [create-t3-turbo](https://github.com/t3-oss/create-t3-turbo) with some additional OGP-specific tweaks.

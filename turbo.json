@@ -85,6 +85,7 @@
     "VERCEL",
     "VERCEL_ENV",
     "VERCEL_URL",
+    "NEXT_DIST_DIR",
     "npm_lifecycle_event",
     "DOCKER_HOST",
     "TESTCONTAINERS_RYUK_DISABLED",
