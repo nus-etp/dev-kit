@@ -3,7 +3,7 @@
 Tracking the work needed to evaluate / migrate this monorepo from Node 24 to Bun.
 Status: **not started** — exploratory.
 
-Current runtime: Node `>=24.13.0` (`package.json`, `.nvmrc`), pnpm `10.17.1`, deployed to Vercel (Node).
+Current runtime: Node `>=24.22.1 <25` (`package.json`, `.nvmrc`), pnpm `10.17.1`, deployed to Vercel (Node).
 
 ## Decisions to make first
 - [ ] Scope: full swap (Node → Bun everywhere) **or** narrow swap (Bun as script/dev runner only, keep Node for CI/prod)?
