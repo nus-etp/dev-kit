@@ -6,7 +6,7 @@ This file provides guidance to coding agents when working with code in this repo
 
 ETP Starter Kit — a Turborepo + pnpm monorepo (`@acme/*` workspace scope). Single Next.js 16 app (`apps/web`) using React 19, tRPC v11, Tailwind v4, Prisma 7 + Kysely on PostgreSQL, iron-session, Pino logging, and Redis. Lint/format via the oxc toolchain (oxlint + oxfmt). Shared packages live under `packages/*`; build/lint configs under `tooling/*`.
 
-Node `>=24.13.0`, pnpm `>=11.0.0` (enforced via `engines`). Always use `pnpm` — never `npm`/`yarn`.
+Node `>=24.22.1 <25`, pnpm `>=11.0.0` (enforced via `engines`). Always use `pnpm` — never `npm`/`yarn`.
 
 ## Commands
 
