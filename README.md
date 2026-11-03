@@ -11,7 +11,6 @@ A technical kit to quickly build new products from
 - 🧙‍♂️ E2E typesafety with [tRPC v11](https://trpc.io)
 - ⚡ Full-stack React with [Next.js v16](https://nextjs.org)
 - 🌈 Database with [Prisma](https://www.prisma.io/)
-- ⚙️ VSCode extensions
 - 🎨 Oxlint + Oxfmt
 - 💚 CI setup using GitHub Actions:
   - ✅ E2E testing with [Playwright](https://playwright.dev/)
@@ -27,8 +26,6 @@ A technical kit to quickly build new products from
 .github
   └─ workflows
         └─ CI with pnpm cache setup
-.vscode
-  └─ Recommended extensions and settings for VSCode users
 .oxfmtrc.jsonc
   └─ Oxfmt formatter configuration
 apps
