@@ -2,7 +2,9 @@ import {
   createAuthToken,
   createVfnIdentifier,
   createVfnPrefix,
+  evaluateOtpAttempt,
   isValidToken,
+  MAX_OTP_ATTEMPTS,
 } from '../auth.utils'
 
 describe('auth.utils', () => {
@@ -411,6 +413,82 @@ describe('auth.utils', () => {
           hash: hash2,
         })
       ).toBe(true)
+    })
+  })
+
+  describe('evaluateOtpAttempt', () => {
+    const issuedAt = new Date('2026-01-01T00:00:00Z')
+    const expirySeconds = 600
+    const withinExpiry = new Date('2026-01-01T00:05:00Z')
+    const afterExpiry = new Date('2026-01-01T00:10:01Z')
+
+    it('should accept a valid token within expiry and attempt limit', () => {
+      expect(
+        evaluateOtpAttempt({
+          attempts: MAX_OTP_ATTEMPTS,
+          issuedAt,
+          expirySeconds,
+          now: withinExpiry,
+          isTokenValid: () => true,
+        })
+      ).toBe('valid')
+    })
+
+    it('should reject with too_many_attempts once the attempt limit is exceeded, even for a valid token', () => {
+      expect(
+        evaluateOtpAttempt({
+          attempts: MAX_OTP_ATTEMPTS + 1,
+          issuedAt,
+          expirySeconds,
+          now: afterExpiry,
+          isTokenValid: () => true,
+        })
+      ).toBe('too_many_attempts')
+    })
+
+    it('should reject with otp_expired after expiry, even for a valid token', () => {
+      expect(
+        evaluateOtpAttempt({
+          attempts: 1,
+          issuedAt,
+          expirySeconds,
+          now: afterExpiry,
+          isTokenValid: () => true,
+        })
+      ).toBe('otp_expired')
+    })
+
+    it('should reject with otp_invalid for a wrong token within expiry', () => {
+      expect(
+        evaluateOtpAttempt({
+          attempts: 1,
+          issuedAt,
+          expirySeconds,
+          now: withinExpiry,
+          isTokenValid: () => false,
+        })
+      ).toBe('otp_invalid')
+    })
+
+    it('should not check the token once the attempt is already rejected', () => {
+      const isTokenValid = vi.fn<() => boolean>(() => true)
+
+      evaluateOtpAttempt({
+        attempts: MAX_OTP_ATTEMPTS + 1,
+        issuedAt,
+        expirySeconds,
+        now: withinExpiry,
+        isTokenValid,
+      })
+      evaluateOtpAttempt({
+        attempts: 1,
+        issuedAt,
+        expirySeconds,
+        now: afterExpiry,
+        isTokenValid,
+      })
+
+      expect(isTokenValid).not.toHaveBeenCalled()
     })
   })
 })

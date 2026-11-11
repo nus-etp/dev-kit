@@ -1,5 +1,6 @@
 import { scryptSync, timingSafeEqual } from 'crypto'
 
+import { add } from 'date-fns/add'
 import { customAlphabet } from 'nanoid'
 
 import { OTP_LENGTH, OTP_PREFIX_LENGTH } from '~/validators/auth'
@@ -87,4 +88,39 @@ export const createAuthToken = ({
     token,
     hashedToken,
   }
+}
+
+export const MAX_OTP_ATTEMPTS = 5
+
+export type OtpAttemptOutcome =
+  | 'valid'
+  | 'too_many_attempts'
+  | 'otp_expired'
+  | 'otp_invalid'
+
+export type RejectedOtpAttemptOutcome = Exclude<OtpAttemptOutcome, 'valid'>
+
+export const evaluateOtpAttempt = ({
+  attempts,
+  issuedAt,
+  expirySeconds,
+  now,
+  isTokenValid,
+}: {
+  attempts: number
+  issuedAt: Date
+  expirySeconds: number
+  now: Date
+  isTokenValid: () => boolean
+}): OtpAttemptOutcome => {
+  if (attempts > MAX_OTP_ATTEMPTS) {
+    return 'too_many_attempts'
+  }
+  if (add(issuedAt, { seconds: expirySeconds }) < now) {
+    return 'otp_expired'
+  }
+  if (!isTokenValid()) {
+    return 'otp_invalid'
+  }
+  return 'valid'
 }
