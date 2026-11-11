@@ -11,8 +11,10 @@ import {
   createAuthToken,
   createVfnIdentifier,
   createVfnPrefix,
+  evaluateOtpAttempt,
   isValidToken,
 } from './auth.utils'
+import type { RejectedOtpAttemptOutcome } from './auth.utils'
 
 import { Prisma } from '@acme/db/client'
 import { env } from '~/env'
@@ -78,6 +80,27 @@ export const emailLogin = async ({
   }
 }
 
+const OTP_REJECTION_ERRORS = {
+  too_many_attempts: {
+    code: 'TOO_MANY_REQUESTS',
+    message: 'Wrong OTP was entered too many times. Please request a new OTP.',
+  },
+  otp_expired: {
+    code: 'BAD_REQUEST',
+    message: 'Token is invalid or has expired. Please request a new OTP.',
+  },
+  otp_invalid: {
+    code: 'BAD_REQUEST',
+    message: 'Token is invalid or has expired. Please request a new OTP.',
+  },
+} satisfies Record<
+  RejectedOtpAttemptOutcome,
+  { code: TRPCError['code']; message: string }
+>
+
+const createOtpRejectionError = (outcome: RejectedOtpAttemptOutcome) =>
+  new TRPCError(OTP_REJECTION_ERRORS[outcome])
+
 export const emailVerifyOtp = async ({
   email,
   token,
@@ -105,37 +128,23 @@ export const emailVerifyOtp = async ({
       },
     })
 
-    if (hashedToken.attempts > 5) {
-      logger.audit.authn.loginFailed({
-        username: email,
-        privileged: true,
-        reason: 'too_many_attempts',
-        attemptCount: hashedToken.attempts,
-      })
-      throw new TRPCError({
-        code: 'TOO_MANY_REQUESTS',
-        message:
-          'Wrong OTP was entered too many times. Please request a new OTP.',
-      })
-    }
+    const outcome = evaluateOtpAttempt({
+      attempts: hashedToken.attempts,
+      issuedAt: hashedToken.issuedAt,
+      expirySeconds: env.OTP_EXPIRY,
+      now: new Date(),
+      isTokenValid: () =>
+        isValidToken({ token, email, codeChallenge, hash: hashedToken.token }),
+    })
 
-    // Expired
-    const hasExpired =
-      add(hashedToken.issuedAt, { seconds: env.OTP_EXPIRY }) < new Date()
-    if (
-      hasExpired ||
-      !isValidToken({ token, email, codeChallenge, hash: hashedToken.token })
-    ) {
+    if (outcome !== 'valid') {
       logger.audit.authn.loginFailed({
         username: email,
         privileged: true,
-        reason: hasExpired ? 'otp_expired' : 'otp_invalid',
+        reason: outcome,
         attemptCount: hashedToken.attempts,
       })
-      throw new TRPCError({
-        code: 'BAD_REQUEST',
-        message: 'Token is invalid or has expired. Please request a new OTP.',
-      })
+      throw createOtpRejectionError(outcome)
     }
 
     // NOTE: You can also use `kysely` for your queries
